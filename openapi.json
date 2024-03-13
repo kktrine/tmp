@@ -1,0 +1,647 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Фильмотека",
+    "description": "---",
+    "contact": {
+      "email": "katucha00@mail.ru"
+    },
+    "version": "0.0.1"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080/Filmoteka/",
+      "description": "Dev server"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Actor",
+      "description": "Everything about actors"
+    },
+    {
+      "name": "Film",
+      "description": "Everything about films"
+    },
+    {
+      "name": "User",
+      "description": "Login / logout"
+    }
+  ],
+  "paths": {
+    "/actors": {
+      "post": {
+        "summary": "Добавить актера",
+        "operationId": "addActor",
+        "tags": [
+          "Actor"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Actor"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Успешно",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Actor"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Ошибка",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Изменить информацию об актере",
+        "operationId": "updateActor",
+        "tags": [
+          "Actor"
+        ],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "surname",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "b_date",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "Johnny"
+                  },
+                  "surname": {
+                    "type": "string",
+                    "example": "Depp"
+                  },
+                  "sex": {
+                    "type": "string",
+                    "enum": [
+                      "M",
+                      "F"
+                    ],
+                    "example": "M"
+                  },
+                  "date_of_birthday": {
+                    "type": "string",
+                    "format": "date",
+                    "example": "1963-06-09T00:00:00.000Z"
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Обновлено удачно",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Actor"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "summary": "Получить список всех актеров",
+        "operationId": "getAllActors",
+        "tags": [
+          "Actor"
+        ],
+        "responses": {
+          "200": {
+            "description": "Список актеров",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "allOf": [
+                      {
+                        "$ref": "#/components/schemas/Actor"
+                      },
+                      {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Ошибка",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Удалить запись об актере",
+        "operationId": "deleteActor",
+        "tags": [
+          "Actor"
+        ],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "surname",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "b_date",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Успешное удаление"
+          },
+          "400": {
+            "description": "Некорректные входные данные",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/films": {
+      "post": {
+        "summary": "Добавить фильм",
+        "operationId": "addFilm",
+        "tags": [
+          "Film"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Film"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Успешно",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Film"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Ошибка",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Изменить информацию о фильме",
+        "operationId": "updateFilm",
+        "tags": [
+          "Film"
+        ],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "year",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "maxLength": 150
+                  },
+                  "description": {
+                    "type": "string",
+                    "maxLength": 1000
+                  },
+                  "rate": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 10
+                  },
+                  "year": {
+                    "type": "integer"
+                  },
+                  "actors": {
+                    "$ref": "#/components/schemas/Actors"
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Обновлено удачно",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Actor"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "summary": "Получить список всех фильмов с возможностью сортировки",
+        "operationId": "getAllFilmsSorted",
+        "tags": [
+          "Film"
+        ],
+        "parameters": [
+          {
+            "name": "sortBy",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "byName",
+                "byRate",
+                "byYear"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Список фильмов",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Films"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Ошибка",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Удалить запись о фильме",
+        "operationId": "deleteFilm",
+        "tags": [
+          "Film"
+        ],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "year",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Успешное удаление"
+          },
+          "400": {
+            "description": "Некорректные входные данные",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/films/find": {
+      "get": {
+        "summary": "Поиск фильма по фрагменту описания или имени актера",
+        "operationId": "findFilm",
+        "tags": [
+          "Film"
+        ],
+        "parameters": [
+          {
+            "name": "find",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "maxLength": 1000
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Найдено",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Films"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Не найдено",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/login": {
+      "get": {
+        "summary": "Вход пользователя в систему",
+        "operationId": "userLogin",
+        "tags": [
+          "User"
+        ],
+        "parameters": [
+          {
+            "name": "username",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 5
+            }
+          },
+          {
+            "name": "password",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 5
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Успешнный вход в систему"
+          },
+          "400": {
+            "description": "Неверное имя пользователя / пароль"
+          }
+        }
+      }
+    },
+    "/user/logout": {
+      "get": {
+        "summary": "Выход пользователя из системы",
+        "operationId": "userLogout",
+        "tags": [
+          "User"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Успешно"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Actor": {
+        "type": "object",
+        "required": [
+          "name",
+          "surname",
+          "sex",
+          "date_of_birthday"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Johnny"
+          },
+          "surname": {
+            "type": "string",
+            "example": "Depp"
+          },
+          "sex": {
+            "type": "string",
+            "enum": [
+              "M",
+              "F"
+            ],
+            "example": "M"
+          },
+          "date_of_birthday": {
+            "type": "string",
+            "format": "date",
+            "example": "1963-06-09T00:00:00.000Z"
+          }
+        }
+      },
+      "Actors": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/Actor"
+        }
+      },
+      "Film": {
+        "type": "object",
+        "required": [
+          "name",
+          "description",
+          "year",
+          "rate",
+          "actors"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 150,
+            "example": "The Shawshank Redemption"
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 1000,
+            "example": "Accountant Andy Dufresne is accused of murdering his wife and her lover. Finding himself in a prison called Shawshank, he is faced with cruelty and lawlessness reigning on both sides of the bars. Anyone who enters these walls becomes their slave for the rest of their lives. But Andy, who has a lively mind and a kind soul, finds an approach to both prisoners and guards, achieving their special favor with him."
+          },
+          "rate": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 10,
+            "example": 9.1
+          },
+          "year": {
+            "type": "integer",
+            "example": 1994
+          },
+          "actors": {
+            "$ref": "#/components/schemas/Actors"
+          }
+        }
+      },
+      "Films": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/Film"
+        }
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string",
+            "example": "theUser"
+          },
+          "password": {
+            "type": "string",
+            "example": "12345",
+            "minLength": 5
+          },
+          "userStatus": {
+            "type": "string",
+            "enum": [
+              "admin",
+              "user"
+            ]
+          }
+        }
+      }
+    }
+  }
+}
